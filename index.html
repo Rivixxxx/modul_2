@@ -1,0 +1,884 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Инструкция по спутниковому мониторингу транспорта и основам монтажа</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.0.0/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            line-height: 1.6;
+            color: #333;
+        }
+        .page-container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .section {
+            margin-bottom: 30px;
+            border-bottom: 1px solid #e2e8f0;
+            padding-bottom: 20px;
+        }
+        .protocol-card {
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 15px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+        .equipment-icon {
+            font-size: 2rem;
+            margin-bottom: 10px;
+        }
+        .protocol-diagram {
+            height: 120px;
+            margin: 20px 0;
+            position: relative;
+            background-color: #f8fafc;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .connection-line {
+            height: 4px;
+            background-color: #3b82f6;
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+        .device-node {
+            width: 60px;
+            height: 60px;
+            background-color: #93c5fd;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: absolute;
+            color: white;
+            font-weight: bold;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .table-container {
+            overflow-x: auto;
+        }
+        .installation-diagram {
+            height: 200px;
+            background-color: #f1f5f9;
+            border-radius: 8px;
+            margin: 20px 0;
+            position: relative;
+            overflow: hidden;
+        }
+        .vehicle-outline {
+            width: 80%;
+            height: 80px;
+            background-color: #cbd5e1;
+            border-radius: 20px;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+        .equipment-point {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background-color: #ef4444;
+            position: absolute;
+            box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.3);
+        }
+        .note-box {
+            background-color: #fffbeb;
+            border-left: 4px solid #f59e0b;
+            padding: 10px 15px;
+            margin: 15px 0;
+            border-radius: 0 4px 4px 0;
+        }
+        .highlight-text {
+            background-color: #fef3c7;
+            padding: 2px 4px;
+            border-radius: 4px;
+        }
+        .comparison-table th {
+            background-color: #e0f2fe;
+        }
+        .comparison-table tr:nth-child(even) {
+            background-color: #f8fafc;
+        }
+        .test-notice {
+            background-color: #e0f2fe;
+            border-radius: 8px;
+            padding: 15px;
+            margin-top: 30px;
+            border: 1px solid #bae6fd;
+        }
+    </style>
+</head>
+<body>
+    <div class="page-container">
+        <header class="mb-8">
+            <h1 class="text-4xl font-bold text-center text-blue-700 mb-4">Руководство по спутниковому мониторингу транспорта</h1>
+            <p class="text-xl text-center text-gray-600">Оборудование и основы монтажа</p>
+            <div class="w-32 h-1 bg-blue-500 mx-auto mt-4 mb-8"></div>
+            <div class="bg-blue-50 p-6 rounded-lg">
+                <h2 class="text-2xl font-semibold mb-3 text-blue-800">Введение</h2>
+                <p class="mb-3">Добро пожаловать в команду! Это руководство познакомит вас с оборудованием для спутникового мониторинга транспорта, принципами подключения и основами монтажа. Данные знания являются фундаментальными для успешной работы в нашей сфере.</p>
+                <p class="font-medium">После изучения материала вас ждет небольшой тест для проверки полученных знаний.</p>
+            </div>
+        </header>
+
+        <section class="section">
+            <h2 class="text-3xl font-bold mb-6 text-blue-800">1. Типы оборудования для спутникового мониторинга</h2>
+            
+            <div class="grid md:grid-cols-2 gap-6">
+                <div class="bg-white p-6 rounded-lg shadow-md">
+                    <div class="equipment-icon text-blue-600"><i class="fas fa-satellite-dish"></i></div>
+                    <h3 class="text-xl font-semibold mb-2">GPS/ГЛОНАСС терминалы</h3>
+                    <p>Основное устройство системы мониторинга, которое получает данные о местоположении от спутников, собирает информацию с датчиков и передает её на сервер через GSM/GPRS.</p>
+                </div>
+                
+                <div class="bg-white p-6 rounded-lg shadow-md">
+                    <div class="equipment-icon text-green-600"><i class="fas fa-tachometer-alt"></i></div>
+                    <h3 class="text-xl font-semibold mb-2">Датчики уровня топлива (ДУТ)</h3>
+                    <p>Устройства для измерения уровня и объема топлива в баке транспортного средства. Передают данные на терминал для дальнейшей обработки.</p>
+                </div>
+                
+                <div class="bg-white p-6 rounded-lg shadow-md">
+                    <div class="equipment-icon text-purple-600"><i class="fab fa-bluetooth-b"></i></div>
+                    <h3 class="text-xl font-semibold mb-2">BLE-датчики</h3>
+                    <p>Устройства, использующие технологию Bluetooth Low Energy для беспроводной передачи данных на короткие расстояния. Отличаются низким энергопотреблением.</p>
+                </div>
+                
+                <div class="bg-white p-6 rounded-lg shadow-md">
+                    <div class="equipment-icon text-red-600"><i class="fas fa-id-card"></i></div>
+                    <h3 class="text-xl font-semibold mb-2">RFID-считыватели</h3>
+                    <p>Устройства для считывания идентификационных меток (карт, брелоков) для идентификации водителей или других объектов мониторинга.</p>
+                </div>
+                
+                <div class="bg-white p-6 rounded-lg shadow-md">
+                    <div class="equipment-icon text-yellow-600"><i class="fas fa-network-wired"></i></div>
+                    <h3 class="text-xl font-semibold mb-2">1-Wire датчики</h3>
+                    <p>Датчики, использующие одноименную шину данных для подключения. Применяются для измерения температуры и идентификации.</p>
+                </div>
+                
+                <div class="bg-white p-6 rounded-lg shadow-md">
+                    <div class="equipment-icon text-gray-600"><i class="fas fa-cogs"></i></div>
+                    <h3 class="text-xl font-semibold mb-2">Дополнительные датчики</h3>
+                    <p>Включают датчики нагрузки на ось, открытия дверей, расхода топлива, давления, температуры и многие другие.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="section">
+            <h2 class="text-3xl font-bold mb-6 text-blue-800">2. Отличия типов оборудования</h2>
+            
+            <div class="table-container mb-6">
+                <table class="w-full comparison-table border-collapse">
+                    <thead>
+                        <tr>
+                            <th class="border p-3 text-left">Тип оборудования</th>
+                            <th class="border p-3 text-left">Принцип работы</th>
+                            <th class="border p-3 text-left">Назначение</th>
+                            <th class="border p-3 text-left">Особенности</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="border p-3 font-medium">GPS/ГЛОНАСС терминалы</td>
+                            <td class="border p-3">Получают координаты от спутников и передают данные на сервер через GSM/GPRS</td>
+                            <td class="border p-3">Основное устройство системы, сбор всех данных</td>
+                            <td class="border p-3">Различаются по функциональности, количеству интерфейсов, энергопотреблению</td>
+                        </tr>
+                        <tr>
+                            <td class="border p-3 font-medium">Датчики уровня топлива (ДУТ)</td>
+                            <td class="border p-3">Измеряют уровень топлива с помощью емкостного или ультразвукового метода</td>
+                            <td class="border p-3">Контроль расхода топлива, выявление сливов</td>
+                            <td class="border p-3">Требуют калибровки под конкретный бак, высокая точность</td>
+                        </tr>
+                        <tr>
+                            <td class="border p-3 font-medium">BLE-датчики</td>
+                            <td class="border p-3">Беспроводная передача данных по Bluetooth Low Energy</td>
+                            <td class="border p-3">Различные измерения без проводного подключения</td>
+                            <td class="border p-3">Низкое энергопотребление, простота установки, ограниченный радиус действия</td>
+                        </tr>
+                        <tr>
+                            <td class="border p-3 font-medium">RFID-считыватели</td>
+                            <td class="border p-3">Считывание уникальных идентификаторов с меток</td>
+                            <td class="border p-3">Идентификация водителей, контроль доступа</td>
+                            <td class="border p-3">Различные частоты и дальность действия, от нескольких см до нескольких метров</td>
+                        </tr>
+                        <tr>
+                            <td class="border p-3 font-medium">1-Wire датчики</td>
+                            <td class="border p-3">Цифровая передача данных по одному проводу</td>
+                            <td class="border p-3">Измерение температуры, идентификация</td>
+                            <td class="border p-3">Простота подключения, возможность подключения нескольких устройств к одной шине</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            
+            <div class="note-box">
+                <h4 class="font-bold text-lg mb-2"><i class="fas fa-lightbulb text-yellow-500 mr-2"></i>Важно понимать:</h4>
+                <p>Терминал является центральным устройством, к которому подключаются другие датчики. Интерфейсы подключения (RS-232, RS-485, 1-Wire, CAN) определяют способ коммуникации между оборудованием.</p>
+            </div>
+        </section>
+
+        <section class="section">
+            <h2 class="text-3xl font-bold mb-6 text-blue-800">3. Правила и нюансы монтажа оборудования</h2>
+            
+            <h3 class="text-2xl font-semibold mb-4">3.1 Установка GPS/ГЛОНАСС терминала</h3>
+            
+            <div class="bg-white p-6 rounded-lg shadow-md mb-6">
+                <div class="flex flex-wrap md:flex-nowrap">
+                    <div class="w-full md:w-2/3 pr-0 md:pr-6">
+                        <h4 class="text-xl font-medium mb-3 text-blue-700">Рекомендуемые места установки:</h4>
+                        <ul class="list-disc pl-6 mb-4">
+                            <li>Под приборной панелью</li>
+                            <li>За панелями обшивки салона</li>
+                            <li>В технологических нишах транспортного средства</li>
+                            <li>В местах с минимальным доступом для водителя</li>
+                        </ul>
+                        
+                        <h4 class="text-xl font-medium mb-3 text-blue-700">Ключевые требования:</h4>
+                        <ul class="list-disc pl-6">
+                            <li>Скрытая установка для защиты от вмешательства</li>
+                            <li>Надежное крепление для предотвращения перемещения</li>
+                            <li>Обеспечение хорошего приема GPS/ГЛОНАСС сигнала</li>
+                            <li>Доступность для обслуживания при необходимости</li>
+                            <li>Защита от влаги, пыли и вибрации</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="w-full md:w-1/3 mt-4 md:mt-0">
+                        <div class="installation-diagram">
+                            <div class="vehicle-outline">
+                                <div class="equipment-point" style="top: 30%; left: 30%;" title="GPS терминал под приборной панелью"></div>
+                                <div class="equipment-point" style="top: 45%; left: 60%;" title="Альтернативное место установки"></div>
+                                <div class="equipment-point" style="top: 70%; left: 20%;" title="Место установки в грузовых ТС"></div>
+                            </div>
+                        </div>
+                        <p class="text-center text-sm text-gray-600 mt-2">Типичные места установки GPS/ГЛОНАСС терминала</p>
+                    </div>
+                </div>
+                
+                <div class="note-box mt-4">
+                    <p><span class="font-bold">ВНИМАНИЕ!</span> GPS-антенну необходимо устанавливать таким образом, чтобы между ней и небом было минимальное количество преград. Металлические поверхности могут экранировать сигнал.</p>
+                </div>
+            </div>
+            
+            <h3 class="text-2xl font-semibold mb-4">3.2 Установка датчиков уровня топлива (ДУТ)</h3>
+            
+            <div class="bg-white p-6 rounded-lg shadow-md mb-6">
+                <div class="flex flex-wrap md:flex-nowrap">
+                    <div class="w-full md:w-2/3 pr-0 md:pr-6">
+                        <h4 class="text-xl font-medium mb-3 text-blue-700">Этапы установки:</h4>
+                        <ol class="list-decimal pl-6 mb-4">
+                            <li class="mb-2">Слив топлива из бака (при необходимости)</li>
+                            <li class="mb-2">Определение места установки (обычно в штатное отверстие или с изготовлением нового)</li>
+                            <li class="mb-2">Обрезка измерительной части датчика под конкретный бак</li>
+                            <li class="mb-2">Герметичная установка с использованием прокладок и крепежных элементов</li>
+                            <li class="mb-2">Подключение к терминалу (обычно по интерфейсу RS-485 или RS-232)</li>
+                            <li>Калибровка ДУТ для получения точных показаний</li>
+                        </ol>
+                        
+                        <h4 class="text-xl font-medium mb-3 text-blue-700">Требования к установке:</h4>
+                        <ul class="list-disc pl-6">
+                            <li>Вертикальное расположение в баке</li>
+                            <li>Исключение контакта с внутренними элементами бака</li>
+                            <li>Надежная герметизация места установки</li>
+                            <li>Защита проводов от механических повреждений</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="w-full md:w-1/3 mt-4 md:mt-0">
+                        <div class="bg-gray-100 p-4 rounded-lg">
+                            <h5 class="font-medium text-lg mb-2">Калибровка ДУТ</h5>
+                            <p class="mb-3 text-sm">Необходимо создать тарировочную таблицу, которая связывает показания датчика с реальным объемом топлива в баке.</p>
+                            <div class="grid grid-cols-2 gap-2 text-sm">
+                                <div class="bg-white p-2 rounded text-center">
+                                    <div class="text-blue-600 mb-1"><i class="fas fa-vial"></i></div>
+                                    <div>Пустой бак</div>
+                                </div>
+                                <div class="bg-white p-2 rounded text-center">
+                                    <div class="text-blue-600 mb-1"><i class="fas fa-arrow-right"></i></div>
+                                    <div>Значение ДУТ</div>
+                                </div>
+                                <div class="bg-white p-2 rounded text-center">
+                                    <div class="text-blue-600 mb-1"><i class="fas fa-gas-pump"></i></div>
+                                    <div>Заправка</div>
+                                </div>
+                                <div class="bg-white p-2 rounded text-center">
+                                    <div class="text-blue-600 mb-1"><i class="fas fa-arrow-right"></i></div>
+                                    <div>Новое значение</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <h3 class="text-2xl font-semibold mb-4">3.3 Установка BLE-датчиков</h3>
+            
+            <div class="bg-white p-6 rounded-lg shadow-md mb-6">
+                <div class="flex flex-wrap items-center">
+                    <div class="w-full md:w-2/3">
+                        <p class="mb-4">Bluetooth-датчики имеют упрощенную процедуру установки благодаря беспроводной передаче данных:</p>
+                        
+                        <ul class="list-disc pl-6 mb-4">
+                            <li>Не требуют проводного подключения к терминалу</li>
+                            <li>Часто имеют автономное питание (батареи)</li>
+                            <li>Располагаются в зоне действия Bluetooth-приемника терминала (обычно до 10-30 метров)</li>
+                            <li>Необходима регистрация в системе по уникальному идентификатору</li>
+                        </ul>
+                        
+                        <div class="bg-blue-50 p-4 rounded-lg">
+                            <h4 class="font-medium mb-2">Примеры применения BLE-датчиков:</h4>
+                            <div class="grid grid-cols-2 md:grid-cols-3 gap-3">
+                                <div class="bg-white p-3 rounded-lg text-center">
+                                    <div class="text-blue-500 mb-1"><i class="fas fa-temperature-high"></i></div>
+                                    <div class="text-sm">Температурные датчики</div>
+                                </div>
+                                <div class="bg-white p-3 rounded-lg text-center">
+                                    <div class="text-blue-500 mb-1"><i class="fas fa-box-open"></i></div>
+                                    <div class="text-sm">Датчики открытия дверей</div>
+                                </div>
+                                <div class="bg-white p-3 rounded-lg text-center">
+                                    <div class="text-blue-500 mb-1"><i class="fas fa-car-battery"></i></div>
+                                    <div class="text-sm">Контроль аккумулятора</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="w-full md:w-1/3 mt-4 md:mt-0 text-center">
+                        <div class="inline-block bg-blue-100 p-4 rounded-full">
+                            <i class="fab fa-bluetooth-b text-6xl text-blue-600"></i>
+                        </div>
+                        <p class="mt-2 text-sm text-gray-600">Радиус действия до 30 метров</p>
+                    </div>
+                </div>
+            </div>
+            
+            <h3 class="text-2xl font-semibold mb-4">3.4 Установка RFID-системы</h3>
+            
+            <div class="bg-white p-6 rounded-lg shadow-md mb-6">
+                <div class="mb-4">
+                    <h4 class="text-xl font-medium mb-3 text-blue-700">Компоненты RFID-системы:</h4>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <div class="border rounded-lg p-4">
+                            <div class="text-red-500 text-2xl mb-2"><i class="fas fa-broadcast-tower"></i></div>
+                            <h5 class="font-medium mb-1">RFID-считыватель</h5>
+                            <p class="text-sm">Подключается к терминалу по интерфейсу 1-Wire или RS-232</p>
+                        </div>
+                        <div class="border rounded-lg p-4">
+                            <div class="text-red-500 text-2xl mb-2"><i class="fas fa-id-card"></i></div>
+                            <h5 class="font-medium mb-1">RFID-метки (карты)</h5>
+                            <p class="text-sm">Выдаются водителям для идентификации</p>
+                        </div>
+                        <div class="border rounded-lg p-4">
+                            <div class="text-red-500 text-2xl mb-2"><i class="fas fa-database"></i></div>
+                            <h5 class="font-medium mb-1">База данных</h5>
+                            <p class="text-sm">Связывает ID меток с информацией о водителях</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <h4 class="text-xl font-medium mb-3 text-blue-700">Рекомендации по установке:</h4>
+                <ul class="list-disc pl-6">
+                    <li>Считыватель устанавливается в удобном для водителя месте (приборная панель, дверь и т.д.)</li>
+                    <li>Должен быть защищен от механических повреждений и вандализма</li>
+                    <li>Необходимо учитывать дальность считывания при выборе места (от 2-3 см до 1 метра в зависимости от типа)</li>
+                    <li>Антенна считывателя не должна экранироваться металлическими поверхностями</li>
+                </ul>
+            </div>
+            
+            <h3 class="text-2xl font-semibold mb-4">3.5 Установка 1-Wire датчиков</h3>
+            
+            <div class="bg-white p-6 rounded-lg shadow-md">
+                <div class="flex flex-wrap">
+                    <div class="w-full md:w-2/3">
+                        <p class="mb-4">Интерфейс 1-Wire позволяет подключать несколько устройств к одной линии, что упрощает монтаж системы.</p>
+                        
+                        <h4 class="text-xl font-medium mb-3 text-blue-700">Основные типы 1-Wire устройств:</h4>
+                        <ul class="list-disc pl-6 mb-4">
+                            <li>Датчики температуры DS18B20</li>
+                            <li>Считыватели iButton для идентификации</li>
+                            <li>Устройства контроля доступа</li>
+                        </ul>
+                        
+                        <h4 class="text-xl font-medium mb-3 text-blue-700">Правила подключения:</h4>
+                        <ul class="list-disc pl-6">
+                            <li>Соблюдение полярности при подключении</li>
+                            <li>Общая длина шины не должна превышать 30-60 метров</li>
+                            <li>При большой длине шины или количестве устройств может потребоваться подтягивающий резистор</li>
+                            <li>Защита проводов от повреждений и влаги</li>
+                            <li>Каждое устройство имеет уникальный ID, который необходимо зарегистрировать в системе</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="w-full md:w-1/3 mt-4 md:mt-0">
+                        <div class="p-4 bg-yellow-50 rounded-lg">
+                            <h5 class="font-medium mb-2 text-center">Схема подключения 1-Wire</h5>
+                            <div class="p-3 bg-white rounded-lg mb-3" style="height: 150px;">
+                                <div style="height: 80%; border-top: 2px solid #333; border-bottom: 2px solid #333; position: relative;">
+                                    <div style="position: absolute; top: -10px; left: 0; width: 100%; border-bottom: 2px dashed #666;"></div>
+                                    <div style="position: absolute; top: 25%; left: 10%; width: 20px; height: 20px; background-color: #3b82f6; border-radius: 50%;"></div>
+                                    <div style="position: absolute; top: 25%; left: 40%; width: 20px; height: 20px; background-color: #3b82f6; border-radius: 50%;"></div>
+                                    <div style="position: absolute; top: 25%; left: 70%; width: 20px; height: 20px; background-color: #3b82f6; border-radius: 50%;"></div>
+                                </div>
+                            </div>
+                            <div class="text-center text-sm">
+                                <p>Параллельное подключение нескольких устройств к одной шине</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="section">
+            <h2 class="text-3xl font-bold mb-6 text-blue-800">4. Выбор точек подключения</h2>
+            
+            <div class="bg-white p-6 rounded-lg shadow-md mb-6">
+                <h3 class="text-2xl font-semibold mb-4">4.1 Подключение питания</h3>
+                
+                <div class="grid md:grid-cols-2 gap-6 mb-4">
+                    <div>
+                        <h4 class="text-lg font-medium mb-2 text-blue-700">Рекомендуемые точки подключения:</h4>
+                        <ul class="list-disc pl-6">
+                            <li>Непосредственно от аккумулятора через предохранитель</li>
+                            <li>От блока предохранителей через свободный слот</li>
+                            <li>Через реле к цепи зажигания (для контроля включения/выключения)</li>
+                        </ul>
+                    </div>
+                    
+                    <div>
+                        <h4 class="text-lg font-medium mb-2 text-blue-700">Что необходимо учитывать:</h4>
+                        <ul class="list-disc pl-6">
+                            <li>Стабильность напряжения в выбранной точке</li>
+                            <li>Нагрузка на цепь с учетом потребления оборудования</li>
+                            <li>Необходимость защиты от скачков напряжения</li>
+                            <li>Доступ к точке подключения для обслуживания</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="note-box">
+                    <p><i class="fas fa-exclamation-triangle text-yellow-600 mr-2"></i> <span class="font-bold">ВАЖНО:</span> Всегда используйте предохранители соответствующего номинала для защиты оборудования и бортовой сети транспортного средства.</p>
+                </div>
+            </div>
+            
+            <div class="bg-white p-6 rounded-lg shadow-md mb-6">
+                <h3 class="text-2xl font-semibold mb-4">4.2 Подключение к шине CAN</h3>
+                
+                <div class="flex flex-wrap">
+                    <div class="w-full md:w-3/5 pr-0 md:pr-6">
+                        <p class="mb-4">Подключение к шине CAN требует особой осторожности, так как через нее передается критически важная информация для работы транспортного средства.</p>
+                        
+                        <h4 class="text-lg font-medium mb-2 text-blue-700">Правила подключения:</h4>
+                        <ul class="list-disc pl-6 mb-4">
+                            <li>Определить нужные провода CAN-шины (обычно это витая пара)</li>
+                            <li>Подключаться в режиме "прослушивания" без передачи данных</li>
+                            <li>Соблюдать правильность подключения CAN-High и CAN-Low</li>
+                            <li>Использовать CAN-адаптеры при необходимости</li>
+                            <li>Избегать повреждения изоляции проводов</li>
+                        </ul>
+                        
+                        <p>Для различных марок и моделей транспортных средств расположение и цветовая маркировка проводов CAN-шины может отличаться. Необходимо использовать техническую документацию на конкретное ТС.</p>
+                    </div>
+                    
+                    <div class="w-full md:w-2/5 mt-4 md:mt-0">
+                        <div class="bg-gray-100 p-4 rounded-lg">
+                            <h5 class="font-medium mb-3 text-center">Типичные цвета проводов CAN-шины</h5>
+                            <div class="grid grid-cols-2 gap-3">
+                                <div class="bg-white p-3 rounded-lg text-center">
+                                    <div style="height: 10px; background-color: orange; border-radius: 5px;" class="mb-2"></div>
+                                    <div class="text-sm font-medium">CAN-High</div>
+                                    <div class="text-xs text-gray-600">Обычно оранжевый/желтый</div>
+                                </div>
+                                <div class="bg-white p-3 rounded-lg text-center">
+                                    <div style="height: 10px; background-color: brown; border-radius: 5px;" class="mb-2"></div>
+                                    <div class="text-sm font-medium">CAN-Low</div>
+                                    <div class="text-xs text-gray-600">Обычно коричневый/зеленый</div>
+                                </div>
+                            </div>
+                            <p class="text-xs text-center mt-3 text-gray-600">*Цвета могут отличаться в зависимости от производителя ТС</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="bg-white p-6 rounded-lg shadow-md">
+                <h3 class="text-2xl font-semibold mb-4">4.3 Подключение дискретных входов/выходов</h3>
+                
+                <div class="mb-4">
+                    <h4 class="text-lg font-medium mb-2 text-blue-700">Типичные точки подключения дискретных входов:</h4>
+                    <div class="grid md:grid-cols-3 gap-4 mb-4">
+                        <div class="border p-3 rounded-lg">
+                            <div class="text-green-600 mb-1"><i class="fas fa-key"></i></div>
+                            <div class="font-medium">Зажигание</div>
+                            <div class="text-sm text-gray-600">Контроль включения ТС</div>
+                        </div>
+                        <div class="border p-3 rounded-lg">
+                            <div class="text-green-600 mb-1"><i class="fas fa-door-open"></i></div>
+                            <div class="font-medium">Двери/люки</div>
+                            <div class="text-sm text-gray-600">Контроль открытия</div>
+                        </div>
+                        <div class="border p-3 rounded-lg">
+                            <div class="text-green-600 mb-1"><i class="fas fa-tachometer-alt"></i></div>
+                            <div class="font-medium">Тахометр</div>
+                            <div class="text-sm text-gray-600">Контроль работы двигателя</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <h4 class="text-lg font-medium mb-2 text-blue-700">Подключение цифровых выходов:</h4>
+                <p class="mb-4">Цифровые выходы терминала могут использоваться для управления различными устройствами ТС:</p>
+                <ul class="list-disc pl-6">
+                    <li>Блокировка двигателя (через реле)</li>
+                    <li>Управление дополнительным оборудованием</li>
+                    <li>Включение сирен, световой индикации</li>
+                    <li>Управление топливными клапанами</li>
+                </ul>
+                
+                <div class="note-box mt-4">
+                    <p><i class="fas fa-info-circle text-blue-600 mr-2"></i> <span class="font-bold">Совет:</span> При подключении к цепям управления исполнительными устройствами всегда используйте промежуточные реле для гальванической развязки.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="section">
+            <h2 class="text-3xl font-bold mb-6 text-blue-800">5. Совместимость с системами транспортного средства</h2>
+            
+            <div class="bg-white p-6 rounded-lg shadow-md mb-6">
+                <p class="mb-4">Современные датчики и терминалы спутникового мониторинга могут интегрироваться с различными системами транспортного средства. Понимание совместимости критически важно для правильной настройки системы.</p>
+                
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div>
+                        <h3 class="text-xl font-semibold mb-3 text-blue-700">Совместимость с бортовыми системами</h3>
+                        <ul class="list-disc pl-6">
+                            <li>Бортовой компьютер</li>
+                            <li>Система управления двигателем (ECU)</li>
+                            <li>Тахографы</li>
+                            <li>Системы контроля расхода топлива</li>
+                            <li>Системы контроля давления в шинах (TPMS)</li>
+                            <li>Системы контроля температуры в рефрижераторах</li>
+                        </ul>
+                    </div>
+                    
+                    <div>
+                        <h3 class="text-xl font-semibold mb-3 text-blue-700">Совместимость с протоколами</h3>
+                        <ul class="list-disc pl-6">
+                            <li>SAE J1939 (для грузовых автомобилей)</li>
+                            <li>ISO 15765 (CAN для легковых автомобилей)</li>
+                            <li>FMS (Fleet Management System)</li>
+                            <li>OBD-II (диагностический протокол)</li>
+                            <li>Проприетарные протоколы производителей</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="mt-6">
+                    <h3 class="text-xl font-semibold mb-3 text-blue-700">Матрица совместимости датчиков с системами ТС</h3>
+                    <div class="table-container">
+                        <table class="w-full border-collapse">
+                            <thead>
+                                <tr class="bg-blue-100">
+                                    <th class="border p-2 text-left">Тип датчика</th>
+                                    <th class="border p-2 text-center">Легковые автомобили</th>
+                                    <th class="border p-2 text-center">Грузовые автомобили</th>
+                                    <th class="border p-2 text-center">Спецтехника</th>
+                                    <th class="border p-2 text-center">Сельхозтехника</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td class="border p-2 font-medium">GPS/ГЛОНАСС терминалы</td>
+                                    <td class="border p-2 text-center"><i class="fas fa-check text-green-600"></i></td>
+                                    <td class="border p-2 text-center"><i class="fas fa-check text-green-600"></i></td>
+                                    <td class="border p-2 text-center"><i class="fas fa-check text-green-600"></i></td>
+                                    <td class="border p-2 text-center"><i class="fas fa-check text-green-600"></i></td>
+                                </tr>
+                                <tr>
+                                    <td class="border p-2 font-medium">Датчики уровня топлива</td>
+                                    <td class="border p-2 text-center"><i class="fas fa-check text-green-600"></i></td>
+                                    <td class="border p-2 text-center"><i class="fas fa-check text-green-600"></i></td>
+                                    <td class="border p-2 text-center"><i class="fas fa-check text-green-600"></i></td>
+                                    <td class="border p-2 text-center"><i class="fas fa-check text-green-600"></i></td>
+                                </tr>
+                                <tr>
+                                    <td class="border p-2 font-medium">CAN-интерфейс</td>
+                                    <td class="border p-2 text-center"><i class="fas fa-check text-green-600"></i> OBD-II</td>
+                                    <td class="border p-2 text-center"><i class="fas fa-check text-green-600"></i> J1939</td>
+                                    <td class="border p-2 text-center"><i class="fas fa-check text-green-600"></i> Специфические</td>
+                                    <td class="border p-2 text-center"><i class="fas fa-check text-green-600"></i> ISO 11783</td>
+                                </tr>
+                                <tr>
+                                    <td class="border p-2 font-medium">Датчики нагрузки на ось</td>
+                                    <td class="border p-2 text-center"><i class="fas fa-times text-red-600"></i></td>
+                                    <td class="border p-2 text-center"><i class="fas fa-check text-green-600"></i></td>
+                                    <td class="border p-2 text-center"><i class="fas fa-check text-green-600"></i></td>
+                                    <td class="border p-2 text-center"><i class="fas fa-check text-green-600"></i></td>
+                                </tr>
+                                <tr>
+                                    <td class="border p-2 font-medium">Тахографы</td>
+                                    <td class="border p-2 text-center"><i class="fas fa-times text-red-600"></i></td>
+                                    <td class="border p-2 text-center"><i class="fas fa-check text-green-600"></i></td>
+                                    <td class="border p-2 text-center"><i class="fas fa-check text-green-600"></i></td>
+                                    <td class="border p-2 text-center"><i class="fas fa-times text-red-600"></i></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="note-box">
+                <h4 class="font-bold text-lg mb-2"><i class="fas fa-lightbulb text-yellow-500 mr-2"></i>Рекомендация:</h4>
+                <p>Перед установкой системы мониторинга всегда проверяйте документацию производителя транспортного средства на совместимость с дополнительным оборудованием. В некоторых случаях подключение к определенным системам может привести к нарушению гарантийных обязательств.</p>
+            </div>
+        </section>
+
+        <section class="section">
+            <h2 class="text-3xl font-bold mb-6 text-blue-800">6. Протоколы передачи данных</h2>
+            
+            <div class="grid md:grid-cols-2 gap-6 mb-6">
+                <div class="protocol-card">
+                    <h3 class="text-2xl font-semibold mb-3 text-blue-700">CAN (Controller Area Network)</h3>
+                    
+                    <div class="flex items-center mb-4">
+                        <div class="w-16 h-16 flex items-center justify-center bg-blue-100 rounded-full mr-4">
+                            <i class="fas fa-network-wired text-2xl text-blue-600"></i>
+                        </div>
+                        <div>
+                            <p><strong>Скорость:</strong> до 1 Мбит/с</p>
+                            <p><strong>Тип:</strong> Последовательная шина</p>
+                            <p><strong>Применение:</strong> Основная шина данных в ТС</p>
+                        </div>
+                    </div>
+                    
+                    <div class="protocol-diagram">
+                        <div class="connection-line" style="width: 70%; left: 15%;"></div>
+                        <div class="device-node" style="left: 10%;">ECU</div>
+                        <div class="device-node" style="left: 40%;">ABS</div>
+                        <div class="device-node" style="left: 70%;">GPS</div>
+                    </div>
+                    
+                    <h4 class="font-medium mb-2">Особенности:</h4>
+                    <ul class="list-disc pl-6">
+                        <li>Высокая надежность и помехоустойчивость</li>
+                        <li>Приоритетизация сообщений</li>
+                        <li>Обнаружение ошибок</li>
+                        <li>Дифференциальная передача сигнала (CAN-H, CAN-L)</li>
+                    </ul>
+                </div>
+                
+                <div class="protocol-card">
+                    <h3 class="text-2xl font-semibold mb-3 text-blue-700">RS-232</h3>
+                    
+                    <div class="flex items-center mb-4">
+                        <div class="w-16 h-16 flex items-center justify-center bg-green-100 rounded-full mr-4">
+                            <i class="fas fa-plug text-2xl text-green-600"></i>
+                        </div>
+                        <div>
+                            <p><strong>Скорость:</strong> до 115.2 кбит/с</p>
+                            <p><strong>Тип:</strong> Последовательный интерфейс</p>
+                            <p><strong>Применение:</strong> "Точка-точка" соединения</p>
+                        </div>
+                    </div>
+                    
+                    <div class="protocol-diagram">
+                        <div class="connection-line" style="width: 50%; left: 25%;"></div>
+                        <div class="device-node" style="left: 20%; background-color: #10b981;">ДУТ</div>
+                        <div class="device-node" style="left: 80%; background-color: #10b981;">GPS</div>
+                    </div>
+                    
+                    <h4 class="font-medium mb-2">Особенности:</h4>
+                    <ul class="list-disc pl-6">
+                        <li>Простота реализации</li>
+                        <li>Ограниченная длина кабеля (до 15 метров)</li>
+                        <li>Подключение только двух устройств</li>
+                        <li>Используется для настройки и диагностики</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="grid md:grid-cols-2 gap-6 mb-6">
+                <div class="protocol-card">
+                    <h3 class="text-2xl font-semibold mb-3 text-blue-700">RS-485</h3>
+                    
+                    <div class="flex items-center mb-4">
+                        <div class="w-16 h-16 flex items-center justify-center bg-purple-100 rounded-full mr-4">
+                            <i class="fas fa-project-diagram text-2xl text-purple-600"></i>
+                        </div>
+                        <div>
+                            <p><strong>Скорость:</strong> до 10 Мбит/с</p>
+                            <p><strong>Тип:</strong> Полудуплексная шина</p>
+                            <p><strong>Применение:</strong> Многоточечные соединения</p>
+                        </div>
+                    </div>
+                    
+                    <div class="protocol-diagram">
+                        <div class="connection-line" style="width: 80%; left: 10%;"></div>
+                        <div class="device-node" style="left: 10%; background-color: #8b5cf6;">ДУТ1</div>
+                        <div class="device-node" style="left: 40%; background-color: #8b5cf6;">ДУТ2</div>
+                        <div class="device-node" style="left: 70%; background-color: #8b5cf6;">ДУТ3</div>
+                        <div class="device-node" style="left: 90%; background-color: #8b5cf6;">GPS</div>
+                    </div>
+                    
+                    <h4 class="font-medium mb-2">Особенности:</h4>
+                    <ul class="list-disc pl-6">
+                        <li>Поддержка до 32 устройств на шине</li>
+                        <li>Высокая помехозащищенность</li>
+                        <li>Большая дальность передачи (до 1200 метров)</li>
+                        <li>Дифференциальная передача сигнала (A, B)</li>
+                    </ul>
+                </div>
+                
+                <div class="protocol-card">
+                    <h3 class="text-2xl font-semibold mb-3 text-blue-700">BLE (Bluetooth Low Energy)</h3>
+                    
+                    <div class="flex items-center mb-4">
+                        <div class="w-16 h-16 flex items-center justify-center bg-blue-100 rounded-full mr-4">
+                            <i class="fab fa-bluetooth-b text-2xl text-blue-600"></i>
+                        </div>
+                        <div>
+                            <p><strong>Скорость:</strong> до 1 Мбит/с</p>
+                            <p><strong>Тип:</strong> Беспроводной интерфейс</p>
+                            <p><strong>Применение:</strong> Беспроводные датчики</p>
+                        </div>
+                    </div>
+                    
+                    <div class="protocol-diagram" style="background-color: #dbeafe;">
+                        <div class="device-node" style="left: 30%; background-color: #3b82f6; border: 2px dashed #1e40af;">
+                            <i class="fas fa-thermometer-half text-white"></i>
+                        </div>
+                        <div class="device-node" style="left: 70%; background-color: #3b82f6;">
+                            GPS
+                        </div>
+                        <div style="position: absolute; top: 50%; left: 30%; width: 40%; border: 2px dashed #1e40af; border-radius: 50%; height: 80px; transform: translate(0, -50%);"></div>
+                    </div>
+                    
+                    <h4 class="font-medium mb-2">Особенности:</h4>
+                    <ul class="list-disc pl-6">
+                        <li>Низкое энергопотребление</li>
+                        <li>Радиус действия до 30 метров</li>
+                        <li>Не требует проводного подключения</li>
+                        <li>Поддержка шифрования данных</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="protocol-card">
+                <h3 class="text-2xl font-semibold mb-3 text-blue-700">1-Wire</h3>
+                
+                <div class="flex items-center mb-4">
+                    <div class="w-16 h-16 flex items-center justify-center bg-yellow-100 rounded-full mr-4">
+                        <i class="fas fa-microchip text-2xl text-yellow-600"></i>
+                    </div>
+                    <div>
+                        <p><strong>Скорость:</strong> до 16.3 кбит/с</p>
+                        <p><strong>Тип:</strong> Шина с одним сигнальным проводом</p>
+                        <p><strong>Применение:</strong> Датчики температуры, идентификация</p>
+                    </div>
+                </div>
+                
+                <div class="protocol-diagram">
+                    <div class="connection-line" style="width: 80%; left: 10%; background-color: #f59e0b;"></div>
+                    <div class="device-node" style="left: 10%; background-color: #f59e0b;">
+                        GPS
+                    </div>
+                    <div class="device-node" style="left: 40%; background-color: #f59e0b;">
+                        <i class="fas fa-thermometer-half text-white"></i>
+                    </div>
+                    <div class="device-node" style="left: 70%; background-color: #f59e0b;">
+                        <i class="fas fa-id-card text-white"></i>
+                    </div>
+                </div>
+                
+                <h4 class="font-medium mb-2">Особенности:</h4>
+                <ul class="list-disc pl-6">
+                    <li>Простота подключения (всего два или три провода)</li>
+                    <li>Каждое устройство имеет уникальный идентификатор</li>
+                    <li>Возможность питания устройств по линии данных (паразитное питание)</li>
+                    <li>Низкая скорость передачи данных</li>
+                </ul>
+            </div>
+            
+            <div class="bg-blue-50 p-6 rounded-lg mt-6">
+                <h3 class="text-2xl font-semibold mb-3 text-blue-800">Сравнение протоколов передачи данных</h3>
+                
+                <div class="table-container">
+                    <table class="w-full border-collapse comparison-table">
+                        <thead>
+                            <tr>
+                                <th class="border p-2">Характеристика</th>
+                                <th class="border p-2">CAN</th>
+                                <th class="border p-2">RS-232</th>
+                                <th class="border p-2">RS-485</th>
+                                <th class="border p-2">BLE</th>
+                                <th class="border p-2">1-Wire</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="border p-2 font-medium">Макс. скорость</td>
+                                <td class="border p-2">1 Мбит/с</td>
+                                <td class="border p-2">115.2 кбит/с</td>
+                                <td class="border p-2">10 Мбит/с</td>
+                                <td class="border p-2">1 Мбит/с</td>
+                                <td class="border p-2">16.3 кбит/с</td>
+                            </tr>
+                            <tr>
+                                <td class="border p-2 font-medium">Дальность</td>
+                                <td class="border p-2">до 40 м</td>
+                                <td class="border p-2">до 15 м</td>
+                                <td class="border p-2">до 1200 м</td>
+                                <td class="border p-2">до 30 м</td>
+                                <td class="border p-2">до 30 м</td>
+                            </tr>
+                            <tr>
+                                <td class="border p-2 font-medium">Кол-во устройств</td>
+                                <td class="border p-2">неограниченно</td>
+                                <td class="border p-2">2</td>
+                                <td class="border p-2">до 32</td>
+                                <td class="border p-2">множество</td>
+                                <td class="border p-2">множество</td>
+                            </tr>
+                            <tr>
+                                <td class="border p-2 font-medium">Помехоустойчивость</td>
+                                <td class="border p-2">высокая</td>
+                                <td class="border p-2">низкая</td>
+                                <td class="border p-2">высокая</td>
+                                <td class="border p-2">средняя</td>
+                                <td class="border p-2">низкая</td>
+                            </tr>
+                            <tr>
+                                <td class="border p-2 font-medium">Типичное применение</td>
+                                <td class="border p-2">Шина данных ТС</td>
+                                <td class="border p-2">Настройка, диагностика</td>
+                                <td class="border p-2">Датчики уровня топлива</td>
+                                <td class="border p-2">Беспроводные датчики</td>
+                                <td class="border p-2">Температурные датчики, идентификация</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <div class="test-notice mt-8">
+            <h2 class="text-2xl font-bold mb-4 text-blue-800"><i class="fas fa-clipboard-check mr-2"></i>Проверка знаний</h2>
+            <p class="mb-3">После изучения данного руководства вам необходимо пройти тест для проверки полученных знаний. Тест состоит из 5 вопросов, которые охватывают основные аспекты работы с оборудованием спутникового мониторинга.</p>
+            <p class="mb-3">Тест доступен по ссылке: <a href="https://docs.google.com/forms/d/1ZB1L6Mwj_m6yHlnSgGZRSU2XVQ4ArxssC8hx8eKq7Xs/edit" class="text-blue-600 underline font-medium" target="_blank">https://docs.google.com/forms/d/1ZB1L6Mwj_m6yHlnSgGZRSU2XVQ4ArxssC8hx8eKq7Xs/edit</a></p>
+            <p>Желаем удачи и успешного прохождения теста!</p>
+        </div>
+
+    </div>
+</body>
+</html>
